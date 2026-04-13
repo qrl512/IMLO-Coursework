@@ -32,15 +32,17 @@ def get_datasets():
 def test_get_datasets(train_dataset, test_dataset):
     #DataLoader takes dataset and feeds it to a model in batches, batch size is the number of images to load at a time repeatedly until the dataset is finished
     train_loader = DataLoader(train_dataset, batch_size = 8, shuffle = True) #shuffle is used to mix images randomly at every epoch so model doesn't learn patterns which aren't real -> good practise
-    test_loader = DataLoader(test_dataset, batch_size = 8, shuffle = False)
+    test_loader = DataLoader(test_dataset, batch_size = 8, shuffle = False) #using a small batch size for now, maybe try like 16 or 32 later?? see the effects the batch size has
 
     #get one batch for train dataset and loader
     images, labels = next(iter(train_loader))
+    print("TRAINING DATASET")
     print("batch image shape is: ", images.shape)
     print("batch labels are: ", labels)
 
     #get one batch for test dataset and loader
     images, labels = next(iter(test_loader))
+    print("TESTING DATASET")
     print("batch image shape is: ", images.shape)
     print("batch labels are: ", labels)
 

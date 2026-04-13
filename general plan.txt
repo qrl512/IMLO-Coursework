@@ -1,0 +1,43 @@
+IMLO Coursework Rough Plan:
+1. Create directory for the project
+2. Setup project folder structure (flat)
+3. Sort out environment.yml stuff
+4. Make uni github account
+5. Set up new repository imlo-coursework
+6. Load the dataset using pytorch (split into trainval and test)
+(MAYBE) 7. Split the trainval into training and validation -> 80:20? train:val
+8. Define batch size and figure out what pixels to resize all images too so they're all the same
+9. Convert images to tensors for nn to work
+YOU ARE HERE ALANAH
+10. Build my neural network:
+	10.1: layers, classes, architecture? look at coursework info about the dataset (breeds/dogs/cats amounts etc)
+11. Setup training:
+	11.1: choose loss function & optimiser (look at assessment questions to see components needed)
+	11.2: set training limit to 30 epochs (ESSENTIAL)
+12. Train model:
+	12.1: load dataset, train model, save model (PyTorch SO useful, read back over website)
+	12.2: during training make sure to track accuracy and validation accuracy
+13. Test model:
+	13.1: load model, load test dataset ONLY, output the final accuracy
+	13.2: compute test accuracy
+14. Verify:
+	14.1: test everything using command 'conda run -n imlo-coursework test.py
+	-> must not have any errors or any inputs needed
+15. Check accuracy reproduces within +- 3%
+
+USEFUL LINKS:
+https://cs231n.github.io/convolutional-networks/
+https://docs.pytorch.org/tutorials/
+https://docs.pytorch.org/vision/main/generated/torchvision.datasets.OxfordIIITPet.html
+https://pytorch.org/docs/stable/nn.html#loss-functions
+https://docs.pytorch.org/docs/stable/optim.html
+
+CNN EXAMPLE FOR INSPO:
+https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
+
+NN GAMEPLAN:
+Learn PyTorch basics (tutorial)
+Understand CNN structure (Stanford notes)
+Load dataset
+Build a SMALL model first
+Train → test → improve
