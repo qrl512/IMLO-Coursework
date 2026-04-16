@@ -27,7 +27,20 @@ def get_datasets():
         download = True
     )
 
+    # Slit trainval into training + validation
+    train_data, val_data = split_trainval_dataset(train_dataset)
+
     return train_dataset, test_dataset
+
+def split_trainval_dataset(train_dataset):
+    #split data 80:20 training:validation for now
+    #split randomly for better pattern learning
+    train_size = int(0.8 * len(train_dataset))
+    val_size = len(train_dataset) - train_size #whatever is left of the dataset
+
+    train_data, val_data = random_split(train_dataset, [train_size, val_size])   
+    return train_data, val_data
+
 
 def test_get_datasets(train_dataset, test_dataset):
     #DataLoader takes dataset and feeds it to a model in batches, batch size is the number of images to load at a time repeatedly until the dataset is finished
