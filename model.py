@@ -15,6 +15,27 @@ class AnimalClassifier(nn.Module):
         super().__init__()
 
         #my network layers
+        
+        #CONVOLUTIONAL LAYERS
+        #input channels = 3 (i have RGB images)
+        #ouput channels = 16 each output channel is a feature map, need to decide on a number, 16 seems to be standard chouice
+        #kernel size = 3 standard choice for CNN, small enough to capture simple patterns like edges and gradients
+        #padding = 1 -> need to stop the image from shrinking after the convolution, this way the size is left unchanged
+        #use Pytorch's nn.Conv2d to add 2D convolution over input
+        self.conv1 = nn.Conv2d(3, 16, 3, padding = 1) #take my rgb image, apply 16 different 3x3 filters and keep the output size the same
+
+        #second convolutional layer:
+        #take the 16 feature maps from the first convolutional layer and output 32 feature maps (these are more complex features of the image)
+        self.conv2 = nn.Conv2d(16, 32, 3, padding = 1)
+
+        #third convolutional layer (idk if i need a third or if two enough):
+        self.conv3 = nn.Conv2d(32, 64, 3, padding = 1)
+
+        #POOLING LAYER
+        #
+
+        #FULLY CONNECTED LAYERS (classification)
+
 
     #parent class def forward -> this is data flow and forward pass
     def forward(self, x):

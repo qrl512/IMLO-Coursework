@@ -3,6 +3,7 @@
 import torch #core pytorch
 from torchvision import datasets, transforms #transforms is an image processing tool
 from torch.utils.data import DataLoader 
+from torch.utils.data import random_split
 
 def get_datasets():
     # .Compose transforms multiple steps into one pipeline so that they run in order, maybe look more into if this is a good choice
@@ -30,7 +31,7 @@ def get_datasets():
     # Slit trainval into training + validation
     train_data, val_data = split_trainval_dataset(train_dataset)
 
-    return train_dataset, test_dataset
+    return train_data, val_data, test_dataset
 
 def split_trainval_dataset(train_dataset):
     #split data 80:20 training:validation for now
