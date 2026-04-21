@@ -6,7 +6,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-class AnimalClassifier(nn.Module):
+class PetClassifier(nn.Module):
     #look through the nn.Module parent class to see the constructor
     #must make init call to parent class before assignment of the child class -> pytorch base class info
 
