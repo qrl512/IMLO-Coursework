@@ -32,15 +32,39 @@ class AnimalClassifier(nn.Module):
         self.conv3 = nn.Conv2d(32, 64, 3, padding = 1)
 
         #POOLING LAYER
-        #
+        #thrink image whilst keeping information, reduce spatial size
+        self.pool = nn.MaxPool2d(2, 2) #try 2x2 window with stride 2, stride 2 will be quicker but less detail
+
+
 
         #FULLY CONNECTED LAYERS (classification)
+        #flattened size -> go from 2d features to 1d vector, after pooling we have 16 height + width and then 64 feature maps so 16 * 16 * 16 * 64 = 16384
+        self.fc1 = nn.Linear(64 * 16 * 16, 256) #first fully connected big layer output vector = 256, linear classifier used
+        self.fc2 = nn.Linear(256, 37) #previous 256 output vector and 37 classes
+        self.dropout = nn.Dropout(0.5) #dropout to prevent overfitting, 50% chance of dropping neuron in layer
+
+    
+
+
+
+        #droupout here to help stop and overfitting
 
 
     #parent class def forward -> this is data flow and forward pass
     def forward(self, x):
         #need to define x
         #forward pass, data flow where i will connect layers and possibly pooling depending if the 128x128 image size is the right choice
+
+        #Conv1 + ReLU + pool
+        x = self.pool(F.relu(self.conv1(x))) #126 -> 64
+        #Conv2 + ReLU + pool
+        x = self.pool(F.relu(self.conv2(x))) #64 -> 32
+        #Conv3 + ReLU + pool
+        x = self.pool(F.relu(self.conv3(x))) #32 -> 16
+
+        #flatten
+
+        #fully connected layers with droupout (no overfitting)
 
 #LAYERS
 # Convolutional layers: extract features from the image like textures, shapes and edges
