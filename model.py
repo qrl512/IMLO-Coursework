@@ -35,20 +35,12 @@ class AnimalClassifier(nn.Module):
         #thrink image whilst keeping information, reduce spatial size
         self.pool = nn.MaxPool2d(2, 2) #try 2x2 window with stride 2, stride 2 will be quicker but less detail
 
-
-
         #FULLY CONNECTED LAYERS (classification)
-        #flattened size -> go from 2d features to 1d vector, after pooling we have 16 height + width and then 64 feature maps so 16 * 16 * 16 * 64 = 16384
+        #flattened size -> go from 2d features to 1d vector, after pooling we have 16 height + width and then 64 feature maps so 16 * 16 * 64 = 16384
+        #2d spatial data is heightxwidth
         self.fc1 = nn.Linear(64 * 16 * 16, 256) #first fully connected big layer output vector = 256, linear classifier used
         self.fc2 = nn.Linear(256, 37) #previous 256 output vector and 37 classes
         self.dropout = nn.Dropout(0.5) #dropout to prevent overfitting, 50% chance of dropping neuron in layer
-
-    
-
-
-
-        #droupout here to help stop and overfitting
-
 
     #parent class def forward -> this is data flow and forward pass
     def forward(self, x):
@@ -56,15 +48,21 @@ class AnimalClassifier(nn.Module):
         #forward pass, data flow where i will connect layers and possibly pooling depending if the 128x128 image size is the right choice
 
         #Conv1 + ReLU + pool
-        x = self.pool(F.relu(self.conv1(x))) #126 -> 64
+        x = self.pool(F.relu(self.conv1(x))) #128 -> 64
         #Conv2 + ReLU + pool
         x = self.pool(F.relu(self.conv2(x))) #64 -> 32
         #Conv3 + ReLU + pool
         x = self.pool(F.relu(self.conv3(x))) #32 -> 16
 
-        #flatten
+        #flatten from (batch, 64 channels (feature maps), 16 height, 16 width) to (batch, 64*16*16), .view() reshapes tensor without changing any important data
+        x = x.view(-1, 64 * 16 *16)
 
         #fully connected layers with droupout (no overfitting)
+        x = F.relu(self.fc1(x)) #forward through first fully connected layer
+        x = self.dropout(x) #apply dropout in forwad pass
+        x = self.fc2(x) #classification layer -> final layer
+
+        return x #return the output
 
 #LAYERS
 # Convolutional layers: extract features from the image like textures, shapes and edges
