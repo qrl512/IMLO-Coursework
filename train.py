@@ -72,6 +72,13 @@ def train():
 
 
         #save the best model to a bestmodel.pth (not made yet)
+        if val_accuracy > best_validation_accuracy:
+            best_validation_accuracy = val_accuracy
+            torch.save(model.state_dict(), "best_model.pth")
 
         #save the final model to model.pth
+        torch.save(model.state_dict(), "model.pth")
+
+if __name__ == "__main__":
+    train()
 
