@@ -11,10 +11,12 @@ IMLO Coursework Rough Plan:
 10. Build my neural network:
 	10.1: layers, classes, architecture? look at coursework info about the dataset (breeds/dogs/cats amounts etc)
 
-YOU ARE HERE ALANAH
 11. Setup training:
 	11.1: choose loss function & optimiser (look at assessment questions to see components needed)
 	11.2: set training limit to 30 epochs (ESSENTIAL)
+
+YOU ARE HERE ALANAH:
+
 12. Train model:
 	12.1: load dataset, train model, save model (PyTorch SO useful, read back over website)
 	12.2: during training make sure to track accuracy and validation accuracy
@@ -37,7 +39,7 @@ CNN EXAMPLE FOR POTENTIAL INSPO:
 https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
 
 NN GAMEPLAN:
-Learn PyTorch basics (tutorial)
+Learn PyTorch basics (tutorial) - done, watched few videos + read fair bit of documentation
 Understand CNN structure (Stanford notes until CNN lecture then CNN lecture video and notes)
 Load dataset
 Build a SMALL model first
