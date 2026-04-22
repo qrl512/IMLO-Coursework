@@ -31,7 +31,7 @@ def train():
         train_loss = 0 #accumulate over epochs
         train_correct = 0 
 
-        for labels, images in train_loader:
+        for images, labels in train_loader:
             #forward pass first
             outputs = model(images)
             loss = loss_function(outputs, labels) #from lecture slides
@@ -57,18 +57,21 @@ def train():
         average_train_loss = train_loss / len(train_loader)
 
         #validation phase
+        model.eval() #stop batch dropout
         validation_correct = 0 #number of images the model predicts correctly
 
-        for images, labels in val_loader:
-            outputs = model(images)
-            highest_values, predicted = torch.max(outputs, 1)
-            validation_correct += (predicted == labels).sum().item()
+        #disable gradient tracking
+        with torch.no_grad():
+            for images, labels in val_loader:
+                outputs = model(images)
+                highest_values, predicted = torch.max(outputs, 1)
+                validation_correct += (predicted == labels).sum().item()
 
         #calculate validation accuracy - number of images model predicted correctly divided by total number of images in validation set as a percentage
         val_accuracy = 100 * validation_correct / len(val_loader.dataset) #want to aim for 70-90%
 
         #print the training loss, accuracy and validation accuracy for each epoch as per coursework request
-        printf(f"Epoch {epoch + 1}/{epochs}" - Training loss: {average_train_loss}, Training accuracy: {training_accuracy}%, Validation accuracy: {val_accuracy}%)
+        print(f"Epoch {epoch + 1}/{epochs}, Training loss: {average_train_loss}, Training accuracy: {training_accuracy}%, Validation accuracy: {val_accuracy}%")
 
 
         #save the best model to a bestmodel.pth (not made yet)
