@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 
 def train():
-    #load the datatsets
+    #load the datatsets, look to see if i can make this better in the future inside data.py, low priority task though
     train_data, val_data, test_data = get_datasets()
 
     train_loader = DataLoader(train_data, batch_size = 32, shuffle = True)

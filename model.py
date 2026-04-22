@@ -42,7 +42,7 @@ class PetClassifier(nn.Module):
         self.fc2 = nn.Linear(256, 37) #previous 256 output vector and 37 classes
         self.dropout = nn.Dropout(0.5) #dropout to prevent overfitting, 50% chance of dropping neuron in layer
 
-    #parent class def forward -> this is data flow and forward pass
+    #parent class def forward -> this is data flow and forward pass, if you forget it's on the pytorch website
     def forward(self, x):
         #need to define x
         #forward pass, data flow where i will connect layers and possibly pooling depending if the 128x128 image size is the right choice
