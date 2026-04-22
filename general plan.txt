@@ -14,12 +14,11 @@ IMLO Coursework Rough Plan:
 11. Setup training:
 	11.1: choose loss function & optimiser (look at assessment questions to see components needed)
 	11.2: set training limit to 30 epochs (ESSENTIAL)
-
-YOU ARE HERE ALANAH:
-
 12. Train model:
 	12.1: load dataset, train model, save model (PyTorch SO useful, read back over website)
+	YOU ARE HERE ALANAH:
 	12.2: during training make sure to track accuracy and validation accuracy
+	12.3: save the best model to a bset_model path and the final model to model path
 13. Test model:
 	13.1: load model, load test dataset ONLY, output the final accuracy
 	13.2: compute test accuracy

@@ -52,8 +52,24 @@ def train():
             #need to get predicted values to be able to then comapre with labels
             train_correct += (predicted == labels).sum().item() #sum of the times where predicted value = actual label, will probs need .item() to convert to python number
 
+        #need to calculate training accuracy - number of images model predicted correctly divided by number of images in training dataset as a percentage
+        training_accuracy = 100 * train_correct / len(train_loader.dataset)
+        average_train_loss = train_loss / len(train_loader)
 
         #validation phase
+        validation_correct = 0 #number of images the model predicts correctly
+
+        for images, labels in val_loader:
+            outputs = model(images)
+            highest_values, predicted = torch.max(outputs, 1)
+            validation_correct += (predicted == labels).sum().item()
+
+        #calculate validation accuracy - number of images model predicted correctly divided by total number of images in validation set as a percentage
+        val_accuracy = 100 * validation_correct / len(val_loader.dataset) #want to aim for 70-90%
+
+        #print the training loss, accuracy and validation accuracy for each epoch as per coursework request
+        printf(f"Epoch {epoch + 1}/{epochs}" - Training loss: {average_train_loss}, Training accuracy: {training_accuracy}%, Validation accuracy: {val_accuracy}%)
+
 
         #save the best model to a bestmodel.pth (not made yet)
 
