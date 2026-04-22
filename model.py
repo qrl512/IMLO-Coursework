@@ -61,6 +61,7 @@ class PetClassifier(nn.Module):
         x = F.relu(self.fc1(x)) #forward through first fully connected layer
         x = self.dropout(x) #apply dropout in forwad pass
         x = self.fc2(x) #classification layer -> final layer
+        x = F.log_softmax(x, dim = 1) #raw outputs -> probabiltiies for NLL
 
         return x #return the output
 

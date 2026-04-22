@@ -1,5 +1,7 @@
 #this must: load the train dataset, create the model, train for 30 epochs, save model to .pth file
 import torch.nn as nn
+import torch
+from data import get_datasets
 from torch.utils.data import DataLoader
 from model import PetClassifier
 
@@ -16,7 +18,7 @@ def train():
     loss_function = nn.NLLLoss() #add log softmax in model -> https://docs.pytorch.org/docs/stable/generated/torch.nn.LogSoftmax.html
 
     #optimiser? lectures showen stochastic gradient descent but is that good enough? torch has SGD which is pretty helpful for me
-    optimiser = torch.optim.SGD(model.Parameters(), lr = 0.001, momentum = 0) #current values just the same as the Pytorch class definition, need to investigate whether i want momentum or not
+    optimiser = torch.optim.SGD(model.parameters(), lr = 0.001, momentum = 0) #current values just the same as the Pytorch class definition, need to investigate whether i want momentum or not
 
     best_validation_accuracy = 0 #update this to keep track of the best validation accuracy throughout all epochs
 
@@ -29,27 +31,26 @@ def train():
         train_loss = 0 #accumulate over epochs
         train_correct = 0 
 
-        for labels, images in train_laoder:
+        for labels, images in train_loader:
             #forward pass first
             outputs = model(images)
             loss = loss_function(outputs, labels) #from lecture slides
 
             #backward passs - model needs to learn and weights must be updated, use week 9 backrop info
 
-            #get rid of the memory of the precvious mistakes
-            loss_function.zero_grad()
+            #get rid of the memory of the precvious mistakes, gradients
+            optimiser.zero_grad()
             #then calculate how much each weight contributed to the wrong answer, measure how wrong they were
             loss.backward()
             #change the weights based on how wrong they were before, gradient descent update in week 8 
             optimiser.step() #adjust the weights based on what has been learnt
 
             #track how well the model is doing during training, add each batch's error to the total error to keep track
-            train_loss += #this batch's loss
+            train_loss += loss.item() #this batch's loss
             #compare the predictions to the actual labels and count the number of correct ones
+            highest_values, predicted = torch.max(outputs, 1)
             #need to get predicted values to be able to then comapre with labels
-            train_correct = #sum of the times where predicted value = actual label, will probs need .item() to convert to python number
-
-
+            train_correct += (predicted == labels).sum().item() #sum of the times where predicted value = actual label, will probs need .item() to convert to python number
 
 
         #validation phase
