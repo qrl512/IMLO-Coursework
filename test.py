@@ -9,7 +9,7 @@ def test():
     train_data, val_data, test_data = get_datasets()
 
     #create test data laoder
-    test_laoder = DataLoader(test_data, batch_size = 32, shuffle = False)
+    test_loader = DataLoader(test_data, batch_size = 32, shuffle = False)
 
     #load the trained model
     model = PetClassifier()
@@ -20,7 +20,7 @@ def test():
     test_correct = 0
 
     with torch.no_grad():
-        for images, labels in test_laoder:
+        for images, labels in test_loader:
             outputs = model(images)
             highest_value, predicted = torch.max(outputs, 1)
             test_correct += (predicted == labels).sum().item()

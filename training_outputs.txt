@@ -1,0 +1,106 @@
+FIRST TRAINING RESULTS:
+
+(base) C:\Users\Alanah\Documents\GitHub\imlo-coursework>conda activate imlo-coursework
+
+(imlo-coursework) C:\Users\Alanah\Documents\GitHub\imlo-coursework>python train.py
+Epoch 1/30, Training loss: 3.6124892234802246, Training accuracy: 3.057065217391304%, Validation accuracy: 3.9402173913043477%
+Epoch 2/30, Training loss: 3.612098623876986, Training accuracy: 2.717391304347826%, Validation accuracy: 3.8043478260869565%
+Epoch 3/30, Training loss: 3.6119630362676536, Training accuracy: 2.411684782608696%, Validation accuracy: 3.532608695652174%
+Epoch 4/30, Training loss: 3.6118903626566348, Training accuracy: 2.785326086956522%, Validation accuracy: 2.8532608695652173%
+Epoch 5/30, Training loss: 3.6120781820753347, Training accuracy: 2.785326086956522%, Validation accuracy: 2.8532608695652173%
+Epoch 6/30, Training loss: 3.611452079337576, Training accuracy: 2.6154891304347827%, Validation accuracy: 2.8532608695652173%
+Epoch 7/30, Training loss: 3.6110093800917915, Training accuracy: 3.1589673913043477%, Validation accuracy: 2.717391304347826%
+Epoch 8/30, Training loss: 3.6116042655447256, Training accuracy: 2.921195652173913%, Validation accuracy: 2.4456521739130435%
+Epoch 9/30, Training loss: 3.61109146087066, Training accuracy: 3.328804347826087%, Validation accuracy: 2.4456521739130435%
+Epoch 10/30, Training loss: 3.6111682601596997, Training accuracy: 3.1589673913043477%, Validation accuracy: 2.4456521739130435%
+Epoch 11/30, Training loss: 3.611067745996558, Training accuracy: 2.989130434782609%, Validation accuracy: 2.4456521739130435%
+Epoch 12/30, Training loss: 3.610728626665862, Training accuracy: 3.2269021739130435%, Validation accuracy: 2.4456521739130435%
+Epoch 13/30, Training loss: 3.610631903876429, Training accuracy: 3.125%, Validation accuracy: 2.4456521739130435%
+Epoch 14/30, Training loss: 3.611074286958446, Training accuracy: 3.0230978260869565%, Validation accuracy: 2.4456521739130435%
+Epoch 15/30, Training loss: 3.6106417153192605, Training accuracy: 2.8192934782608696%, Validation accuracy: 2.4456521739130435%
+Epoch 16/30, Training loss: 3.6105297259662463, Training accuracy: 2.6154891304347827%, Validation accuracy: 2.4456521739130435%
+Epoch 17/30, Training loss: 3.6100110333898794, Training accuracy: 3.192934782608696%, Validation accuracy: 2.4456521739130435%
+Epoch 18/30, Training loss: 3.6103927544925525, Training accuracy: 2.751358695652174%, Validation accuracy: 2.4456521739130435%
+Epoch 19/30, Training loss: 3.609723148138627, Training accuracy: 3.125%, Validation accuracy: 2.4456521739130435%
+Epoch 20/30, Training loss: 3.6096359128537387, Training accuracy: 3.532608695652174%, Validation accuracy: 2.4456521739130435%
+Epoch 21/30, Training loss: 3.6103371226269267, Training accuracy: 3.192934782608696%, Validation accuracy: 2.4456521739130435%
+Epoch 22/30, Training loss: 3.6096772681111875, Training accuracy: 2.989130434782609%, Validation accuracy: 2.4456521739130435%
+Epoch 23/30, Training loss: 3.6095191473546238, Training accuracy: 3.6345108695652173%, Validation accuracy: 2.4456521739130435%
+Epoch 24/30, Training loss: 3.6101695376893748, Training accuracy: 3.125%, Validation accuracy: 2.4456521739130435%
+Epoch 25/30, Training loss: 3.609600730564283, Training accuracy: 3.260869565217391%, Validation accuracy: 2.4456521739130435%
+Epoch 26/30, Training loss: 3.6095972890439243, Training accuracy: 3.192934782608696%, Validation accuracy: 2.4456521739130435%
+Epoch 27/30, Training loss: 3.609368624894515, Training accuracy: 2.6154891304347827%, Validation accuracy: 2.4456521739130435%
+Epoch 28/30, Training loss: 3.6090066873508952, Training accuracy: 2.6154891304347827%, Validation accuracy: 2.4456521739130435%
+Epoch 29/30, Training loss: 3.6087508046108745, Training accuracy: 3.6345108695652173%, Validation accuracy: 2.1739130434782608%
+Epoch 30/30, Training loss: 3.608857978945193, Training accuracy: 3.125%, Validation accuracy: 2.1739130434782608%
+
+(imlo-coursework) C:\Users\Alanah\Documents\GitHub\imlo-coursework>
+
+
+SECOND TRAINING RESULTS - LR = 0.05, MOMENTUM = 0.9
+(imlo-coursework) C:\Users\Alanah\Documents\GitHub\imlo-coursework>python train.py
+Epoch 1/30, Training loss: 3.6166419231373332, Training accuracy: 2.2418478260869565%, Validation accuracy: 2.3097826086956523%
+Epoch 2/30, Training loss: 3.6158777216206426, Training accuracy: 2.751358695652174%, Validation accuracy: 1.766304347826087%
+Epoch 3/30, Training loss: 3.5986446582752727, Training accuracy: 3.328804347826087%, Validation accuracy: 5.706521739130435%
+Epoch 4/30, Training loss: 3.5247377960578254, Training accuracy: 4.925271739130435%, Validation accuracy: 4.891304347826087%
+Epoch 5/30, Training loss: 3.4794936542925625, Training accuracy: 5.604619565217392%, Validation accuracy: 6.114130434782608%
+Epoch 6/30, Training loss: 3.438400229682093, Training accuracy: 6.759510869565218%, Validation accuracy: 7.336956521739131%
+Epoch 7/30, Training loss: 3.4056624925654866, Training accuracy: 7.846467391304348%, Validation accuracy: 8.28804347826087%
+Epoch 8/30, Training loss: 3.3201926661574324, Training accuracy: 10.29211956521739%, Validation accuracy: 6.793478260869565%
+Epoch 9/30, Training loss: 3.2309221806733506, Training accuracy: 11.922554347826088%, Validation accuracy: 9.51086956521739%
+Epoch 10/30, Training loss: 3.156819592351499, Training accuracy: 14.334239130434783%, Validation accuracy: 10.326086956521738%
+Epoch 11/30, Training loss: 3.058926794839942, Training accuracy: 16.032608695652176%, Validation accuracy: 8.423913043478262%
+Epoch 12/30, Training loss: 2.8821848034858704, Training accuracy: 21.841032608695652%, Validation accuracy: 6.929347826086956%
+Epoch 13/30, Training loss: 2.768449791099714, Training accuracy: 25.61141304347826%, Validation accuracy: 9.646739130434783%
+Epoch 14/30, Training loss: 2.7970677147740903, Training accuracy: 24.558423913043477%, Validation accuracy: 7.744565217391305%
+Epoch 15/30, Training loss: 2.33980741708175, Training accuracy: 37.05842391304348%, Validation accuracy: 6.929347826086956%
+Epoch 16/30, Training loss: 2.1450814747292064, Training accuracy: 41.77989130434783%, Validation accuracy: 8.28804347826087%
+Epoch 17/30, Training loss: 1.7882953221383302, Training accuracy: 51.52853260869565%, Validation accuracy: 9.51086956521739%
+Epoch 18/30, Training loss: 1.8572345712910527, Training accuracy: 49.66032608695652%, Validation accuracy: 7.608695652173913%
+Epoch 19/30, Training loss: 1.8590787007756855, Training accuracy: 49.21875%, Validation accuracy: 6.793478260869565%
+Epoch 20/30, Training loss: 2.4966627929521645, Training accuracy: 33.49184782608695%, Validation accuracy: 6.929347826086956%
+Epoch 21/30, Training loss: 2.068046203126078, Training accuracy: 44.39538043478261%, Validation accuracy: 7.880434782608695%
+Epoch 22/30, Training loss: 1.7062263618344846, Training accuracy: 54.58559782608695%, Validation accuracy: 7.336956521739131%
+Epoch 23/30, Training loss: 1.6347027103538099, Training accuracy: 55.74048913043478%, Validation accuracy: 8.831521739130435%
+Epoch 24/30, Training loss: 1.474550667664279, Training accuracy: 59.23913043478261%, Validation accuracy: 6.929347826086956%
+Epoch 25/30, Training loss: 1.534916121026744, Training accuracy: 57.50679347826087%, Validation accuracy: 7.608695652173913%
+Epoch 26/30, Training loss: 1.595544828021008, Training accuracy: 57.06521739130435%, Validation accuracy: 8.152173913043478%
+Epoch 27/30, Training loss: 1.4809943994750148, Training accuracy: 59.64673913043478%, Validation accuracy: 5.163043478260869%
+Epoch 28/30, Training loss: 1.4624508897895399, Training accuracy: 60.869565217391305%, Validation accuracy: 7.4728260869565215%
+Epoch 29/30, Training loss: 1.5549662171498588, Training accuracy: 58.83152173913044%, Validation accuracy: 9.51086956521739%
+Epoch 30/30, Training loss: 1.5980082866938219, Training accuracy: 58.89945652173913%, Validation accuracy: 5.842391304347826%
+
+(imlo-coursework) C:\Users\Alanah\Documents\GitHub\imlo-coursework>
+
+THIRD TRAINING - LR = 0.01, DROPOUT = 70%, MOMENTUM = 0.9:
+(imlo-coursework) C:\Users\Alanah\Documents\GitHub\imlo-coursework>python train.py
+Epoch 1/30, Training loss: 3.613592204840287, Training accuracy: 2.717391304347826%, Validation accuracy: 2.0380434782608696%
+Epoch 2/30, Training loss: 3.611583481664243, Training accuracy: 2.8532608695652173%, Validation accuracy: 2.1739130434782608%
+Epoch 3/30, Training loss: 3.609788682149804, Training accuracy: 3.057065217391304%, Validation accuracy: 2.5815217391304346%
+Epoch 4/30, Training loss: 3.596394375614498, Training accuracy: 3.566576086956522%, Validation accuracy: 4.619565217391305%
+Epoch 5/30, Training loss: 3.539884575035261, Training accuracy: 4.585597826086956%, Validation accuracy: 6.521739130434782%
+Epoch 6/30, Training loss: 3.4845822116603022, Training accuracy: 5.502717391304348%, Validation accuracy: 4.891304347826087%
+Epoch 7/30, Training loss: 3.4465588408967722, Training accuracy: 6.555706521739131%, Validation accuracy: 8.152173913043478%
+Epoch 8/30, Training loss: 3.420088900172192, Training accuracy: 7.065217391304348%, Validation accuracy: 7.336956521739131%
+Epoch 9/30, Training loss: 3.3962056895960933, Training accuracy: 7.404891304347826%, Validation accuracy: 8.695652173913043%
+Epoch 10/30, Training loss: 3.3708460071812505, Training accuracy: 8.016304347826088%, Validation accuracy: 7.880434782608695%
+Epoch 11/30, Training loss: 3.343861325927403, Training accuracy: 8.865489130434783%, Validation accuracy: 9.782608695652174%
+Epoch 12/30, Training loss: 3.315266997917839, Training accuracy: 9.51086956521739%, Validation accuracy: 9.782608695652174%
+Epoch 13/30, Training loss: 3.2970882420954495, Training accuracy: 10.360054347826088%, Validation accuracy: 8.967391304347826%
+Epoch 14/30, Training loss: 3.2193028719528862, Training accuracy: 11.650815217391305%, Validation accuracy: 9.646739130434783%
+Epoch 15/30, Training loss: 3.151146282320437, Training accuracy: 12.97554347826087%, Validation accuracy: 10.733695652173912%
+Epoch 16/30, Training loss: 3.1471156400182974, Training accuracy: 13.247282608695652%, Validation accuracy: 10.46195652173913%
+Epoch 17/30, Training loss: 3.0359744300013003, Training accuracy: 15.998641304347826%, Validation accuracy: 14.402173913043478%
+Epoch 18/30, Training loss: 2.9305131046668342, Training accuracy: 17.764945652173914%, Validation accuracy: 13.043478260869565%
+Epoch 19/30, Training loss: 2.77287998665934, Training accuracy: 22.01086956521739%, Validation accuracy: 12.907608695652174%
+Epoch 20/30, Training loss: 2.686685385911361, Training accuracy: 23.641304347826086%, Validation accuracy: 15.353260869565217%
+Epoch 21/30, Training loss: 2.524270009735356, Training accuracy: 28.532608695652176%, Validation accuracy: 13.994565217391305%
+Epoch 22/30, Training loss: 2.3223176468973574, Training accuracy: 33.83152173913044%, Validation accuracy: 13.722826086956522%
+Epoch 23/30, Training loss: 2.1589502510817153, Training accuracy: 38.38315217391305%, Validation accuracy: 12.228260869565217%
+Epoch 24/30, Training loss: 1.9104967946591584, Training accuracy: 43.71603260869565%, Validation accuracy: 14.266304347826088%
+Epoch 25/30, Training loss: 1.8042435892250226, Training accuracy: 45.41440217391305%, Validation accuracy: 14.402173913043478%
+Epoch 26/30, Training loss: 1.5485290003859478, Training accuracy: 53.94021739130435%, Validation accuracy: 16.168478260869566%
+Epoch 27/30, Training loss: 1.4651764488738517, Training accuracy: 57.20108695652174%, Validation accuracy: 15.217391304347826%
+Epoch 28/30, Training loss: 1.3123194348552953, Training accuracy: 60.80163043478261%, Validation accuracy: 15.896739130434783%
+Epoch 29/30, Training loss: 1.2292509590801985, Training accuracy: 63.68885869565217%, Validation accuracy: 13.58695652173913%
+Epoch 30/30, Training loss: 1.082957254803699, Training accuracy: 66.9836956521739%, Validation accuracy: 12.63586956521739%
