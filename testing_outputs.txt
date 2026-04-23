@@ -1,2 +1,17 @@
 TEST 1:
 Test accurcy: 14.009266830198964%
+
+TEST 2:
+Test accurcy: 12.72826383210684%
+
+TEST 3:
+Test accurcy: 12.810029980921232%
+
+TEST 4:
+Test accurcy: 15.726355955301171%
+
+TEST 5:
+Test accurcy: 16.43499591169256%
+
+TEST 6:
+

@@ -9,8 +9,11 @@ def get_datasets():
     # .Compose transforms multiple steps into one pipeline so that they run in order, maybe look more into if this is a good choice
     transform = transforms.Compose([
         transforms.Resize((128, 128)), #resize every image to 128x128 pixels so that all images are the same size, possibly adjust pixel size for resize if 128 isn't right choice
-        transforms.ToTensor() #convert image into a numeric arrary (tensor) so that the NN can understand it
+        transforms.RandomHorizontalFlip(p=0.5),
+        transforms.ToTensor(), #convert image into a numeric arrary (tensor) so that the NN can understand it
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  #use simple normalization to [-1, 1], should calculate the std and mean for the dataset to use instead, need time to do this
     ])
+
 
     # Load Train Dataset
     train_dataset = datasets.OxfordIIITPet(
