@@ -269,3 +269,37 @@ Epoch 28/30, Training loss: 0.22274324370791082, Training accuracy: 92.866847826
 Epoch 29/30, Training loss: 0.2019186774673669, Training accuracy: 94.02173913043478%, Validation accuracy: 21.059782608695652%
 Epoch 30/30, Training loss: 0.16610876641884123, Training accuracy: 94.83695652173913%, Validation accuracy: 18.61413043478261%
 
+EIGTH TRAINING - SMALLER MODEL
+(imlo-coursework) C:\Users\Alanah\Documents\GitHub\imlo-coursework>python train.py
+Epoch 1/30, Training loss: 3.6137202511663022, Training accuracy: 2.8192934782608696%, Validation accuracy: 2.1739130434782608%
+Epoch 2/30, Training loss: 3.60550712502521, Training accuracy: 3.8722826086956523%, Validation accuracy: 2.0380434782608696%
+Epoch 3/30, Training loss: 3.552866526271986, Training accuracy: 4.585597826086956%, Validation accuracy: 6.25%
+Epoch 4/30, Training loss: 3.459517883217853, Training accuracy: 6.385869565217392%, Validation accuracy: 6.929347826086956%
+Epoch 5/30, Training loss: 3.4144975465276968, Training accuracy: 7.133152173913044%, Validation accuracy: 6.929347826086956%
+Epoch 6/30, Training loss: 3.364581224711045, Training accuracy: 8.220108695652174%, Validation accuracy: 7.744565217391305%
+Epoch 7/30, Training loss: 3.3189038297404414, Training accuracy: 9.612771739130435%, Validation accuracy: 8.695652173913043%
+Epoch 8/30, Training loss: 3.249864827031675, Training accuracy: 10.971467391304348%, Validation accuracy: 12.092391304347826%
+Epoch 9/30, Training loss: 3.2211109944011853, Training accuracy: 10.088315217391305%, Validation accuracy: 8.152173913043478%
+Epoch 10/30, Training loss: 3.1581012969431668, Training accuracy: 12.398097826086957%, Validation accuracy: 10.326086956521738%
+Epoch 11/30, Training loss: 3.1037084304768108, Training accuracy: 13.213315217391305%, Validation accuracy: 11.548913043478262%
+Epoch 12/30, Training loss: 3.076667985190516, Training accuracy: 13.92663043478261%, Validation accuracy: 13.043478260869565%
+Epoch 13/30, Training loss: 2.9919493172479714, Training accuracy: 15.183423913043478%, Validation accuracy: 12.228260869565217%
+Epoch 14/30, Training loss: 2.9447380097016045, Training accuracy: 16.40625%, Validation accuracy: 14.402173913043478%
+Epoch 15/30, Training loss: 2.8916178397510364, Training accuracy: 17.83288043478261%, Validation accuracy: 13.994565217391305%
+Epoch 16/30, Training loss: 2.816704169563625, Training accuracy: 18.953804347826086%, Validation accuracy: 16.304347826086957%
+Epoch 17/30, Training loss: 2.744899272918701, Training accuracy: 21.976902173913043%, Validation accuracy: 15.353260869565217%
+Epoch 18/30, Training loss: 2.6585559223009194, Training accuracy: 24.04891304347826%, Validation accuracy: 16.847826086956523%
+Epoch 19/30, Training loss: 2.5266041030054507, Training accuracy: 25.339673913043477%, Validation accuracy: 15.081521739130435%
+Epoch 20/30, Training loss: 2.4313870240812716, Training accuracy: 30.129076086956523%, Validation accuracy: 20.244565217391305%
+Epoch 21/30, Training loss: 2.322172262098478, Training accuracy: 33.22010869565217%, Validation accuracy: 15.217391304347826%
+Epoch 22/30, Training loss: 2.151224048241325, Training accuracy: 37.12635869565217%, Validation accuracy: 16.304347826086957%
+Epoch 23/30, Training loss: 2.0066421304060067, Training accuracy: 41.202445652173914%, Validation accuracy: 16.847826086956523%
+Epoch 24/30, Training loss: 1.835745965657027, Training accuracy: 45.27853260869565%, Validation accuracy: 15.217391304347826%
+Epoch 25/30, Training loss: 1.6475351763808208, Training accuracy: 51.42663043478261%, Validation accuracy: 15.217391304347826%
+Epoch 26/30, Training loss: 1.5831069071655688, Training accuracy: 53.09103260869565%, Validation accuracy: 14.809782608695652%
+Epoch 27/30, Training loss: 1.4337727537621623, Training accuracy: 56.69157608695652%, Validation accuracy: 16.440217391304348%
+Epoch 28/30, Training loss: 1.285895385172056, Training accuracy: 60.69972826086956%, Validation accuracy: 14.673913043478262%
+Epoch 29/30, Training loss: 1.1787759713504626, Training accuracy: 64.1304347826087%, Validation accuracy: 14.130434782608695%
+Epoch 30/30, Training loss: 1.1006002244742021, Training accuracy: 66.27038043478261%, Validation accuracy: 15.217391304347826%
+
+NINTH TRAIN - 

@@ -7,62 +7,49 @@ from torch.utils.data import random_split
 
 def get_datasets():
     # .Compose transforms multiple steps into one pipeline so that they run in order, maybe look more into if this is a good choice
-    transform = transforms.Compose([
-        transforms.Resize((128, 128)), #resize every image to 128x128 pixels so that all images are the same size, possibly adjust pixel size for resize if 128 isn't right choice
+    # Load the raw dataset withouth any transforming first 
+
+    #define the transforms
+    train_transform = transforms.Compose([
+        transforms.Resize((128, 128)),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.ToTensor(), #convert image into a numeric arrary (tensor) so that the NN can understand it
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  #use simple normalization to [-1, 1], should calculate the std and mean for the dataset to use instead, need time to do this
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
+    eval_transform = transforms.Compose([
+        transforms.Resize((128, 128)),
+        transforms.ToTensor(), #convert image into a numeric arrary (tensor) so that the NN can understand it
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+    ])
 
-    # Load Train Dataset
-    train_dataset = datasets.OxfordIIITPet(
-        root = "./data", #dataset is in folder 'data' in project, must remember to put datasets in data folder or think how to load them elsewhere
-        split = "trainval", #trainval = training + validation
-        transform = transform, #applies the processing pipeline from above
-        download = True #if no dataset on computer then just download automatically
-    )
-
-    # Load Test Dataset
-    test_dataset = datasets.OxfordIIITPet(
+    full_dataset = datasets.OxfordIIITPet(
         root = "./data",
-        split = "test",
-        transform = transform,
+        split = "trainval",
+        transform = train_transform,
         download = True
     )
 
-    # Slit trainval into training + validation
-    train_data, val_data = split_trainval_dataset(train_dataset)
+    #split into train and validation with 80% training and 20% validation
+    train_size = int(0.8 * len(full_dataset))
+    val_size = len(full_dataset) - train_size
+    train_data, val_data = random_split(full_dataset, [train_size, val_size])
+    
+    #load teh test datatset with eval_transform
+    test_dataset = datasets.OxfordIIITPet(
+        root = "./data",
+        split = "test",
+        transform = eval_transform,
+        download = True
+    )
 
     return train_data, val_data, test_dataset
 
 def split_trainval_dataset(train_dataset):
-    #split data 80:20 training:validation for now
-    #split randomly for better pattern learning
-    train_size = int(0.8 * len(train_dataset))
-    val_size = len(train_dataset) - train_size #whatever is left of the dataset
-
-    train_data, val_data = random_split(train_dataset, [train_size, val_size])   
+    train_size = int(0.8 * len(full_dataset))
+    val_size = len(full_dataset) - train_size
+    train_data, val_data = random_split(full_dataset, [train_size, val_size])
     return train_data, val_data
 
-
-def test_get_datasets(train_dataset, test_dataset):
-    #DataLoader takes dataset and feeds it to a model in batches, batch size is the number of images to load at a time repeatedly until the dataset is finished
-    train_loader = DataLoader(train_dataset, batch_size = 8, shuffle = True) #shuffle is used to mix images randomly at every epoch so model doesn't learn patterns which aren't real -> good practise
-    test_loader = DataLoader(test_dataset, batch_size = 8, shuffle = False) #using a small batch size for now, maybe try like 16 or 32 later?? see the effects the batch size has
-
-    #get one batch for train dataset and loader
-    images, labels = next(iter(train_loader))
-    print("TRAINING DATASET")
-    print("batch image shape is: ", images.shape)
-    print("batch labels are: ", labels)
-
-    #get one batch for test dataset and loader
-    images, labels = next(iter(test_loader))
-    print("TESTING DATASET")
-    print("batch image shape is: ", images.shape)
-    print("batch labels are: ", labels)
-
 if __name__ == "__main__":
-    train_dataset, test_dataset = get_datasets()
-    test_get_datasets(train_dataset, test_dataset)
+    train_data, val_data, test_data = get_datasets()

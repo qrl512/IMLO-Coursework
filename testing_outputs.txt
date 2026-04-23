@@ -14,4 +14,4 @@ TEST 5:
 Test accurcy: 16.43499591169256%
 
 TEST 6:
-
+Test accurcy: 15.753611338239303%
