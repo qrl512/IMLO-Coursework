@@ -18,7 +18,7 @@ def train():
     loss_function = nn.NLLLoss() #add log softmax in model -> https://docs.pytorch.org/docs/stable/generated/torch.nn.LogSoftmax.html
 
     #optimiser? lectures showen stochastic gradient descent but is that good enough? torch has SGD which is pretty helpful for me
-    optimiser = torch.optim.SGD(model.parameters(), lr = 0.001, momentum = 0) #current values just the same as the Pytorch class definition, need to investigate whether i want momentum or not
+    optimiser = torch.optim.SGD(model.parameters(), lr = 0.05, momentum = 0.9) #current values just the same as the Pytorch class definition, need to investigate whether i want momentum or not
 
     best_validation_accuracy = 0 #update this to keep track of the best validation accuracy throughout all epochs
 
