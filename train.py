@@ -10,6 +10,11 @@ def train():
     train_data, val_data, test_data = get_datasets()
 
     train_loader = DataLoader(train_data, batch_size = 32, shuffle = True)
+    #DEBUGGING STUFF
+    images, labels = next(iter(train_loader))
+    print(labels[:20])
+    print(labels.min(), labels.max())
+
     val_loader= DataLoader(val_data, batch_size = 32, shuffle = False)
 
     #initialise the model, loss and optimiser

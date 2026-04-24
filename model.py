@@ -31,6 +31,7 @@ class PetClassifier(nn.Module):
         #third convolutional layer (idk if i need a third or if two enough):
         self.conv3 = nn.Conv2d(16, 32, 3, padding = 1)
 
+
         #POOLING LAYER
         #thrink image whilst keeping information, reduce spatial size
         #for smaller model - 32 * 16 * 16 = 8192
@@ -41,6 +42,7 @@ class PetClassifier(nn.Module):
         #2d spatial data is heightxwidth
         self.fc1 = nn.Linear(32 * 16 * 16, 64) #first fully connected big layer output vector = 256, linear classifier used
         self.fc2 = nn.Linear(64, 37) #previous 256 output vector and 37 classes
+
         self.dropout = nn.Dropout(0.3) #dropout to prevent overfitting, 50% chance of dropping neuron in layer
 
     #parent class def forward -> this is data flow and forward pass, if you forget it's on the pytorch website
