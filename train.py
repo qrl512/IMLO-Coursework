@@ -20,10 +20,16 @@ def train():
     #initialise the model, loss and optimiser
     model = PetClassifier()
     #loss? from letures probs NLL loss but need it for multiple classes, add softmax bc my outputs aren't probabilities which NLL needs not raw
-    loss_function = nn.NLLLoss() #add log softmax in model -> https://docs.pytorch.org/docs/stable/generated/torch.nn.LogSoftmax.html
+    
+        #loss_function = nn.NLLLoss() #add log softmax in model -> https://docs.pytorch.org/docs/stable/generated/torch.nn.LogSoftmax.html
+    loss_function = nn.CrossEntropyLoss()
 
     #optimiser? lectures showen stochastic gradient descent but is that good enough? torch has SGD which is pretty helpful for me
-    optimiser = torch.optim.SGD(model.parameters(), lr = 0.01, momentum = 0.9, weight_decay = 0.0001) #current values just the same as the Pytorch class definition, need to investigate whether i want momentum or not
+    
+    #optimiser = torch.optim.SGD(model.parameters(), lr = 0.01, momentum = 0.9, weight_decay = 0.0001) #current values just the same as the Pytorch class definition, need to investigate whether i want momentum or not
+
+    #TRYING ADAM
+    optimiser = torch.optim.Adam(model.parameters(), lr = 0.0003)
 
     best_validation_accuracy = 0 #update this to keep track of the best validation accuracy throughout all epochs
 
@@ -38,6 +44,11 @@ def train():
 
         for images, labels in train_loader:
             #forward pass first
+
+            #-----DEBUGGING------
+            #make sure images are the correct type
+            labels = labels.long()
+
             outputs = model(images)
             loss = loss_function(outputs, labels) #from lecture slides
 

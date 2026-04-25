@@ -4,6 +4,7 @@
 
 #imports
 import torch.nn as nn
+import torch
 import torch.nn.functional as F
 
 class PetClassifier(nn.Module):
@@ -22,15 +23,22 @@ class PetClassifier(nn.Module):
         #kernel size = 3 standard choice for CNN, small enough to capture simple patterns like edges and gradients
         #padding = 1 -> need to stop the image from shrinking after the convolution, this way the size is left unchanged
         #use Pytorch's nn.Conv2d to add 2D convolution over input
-        self.conv1 = nn.Conv2d(3, 8, 3, padding = 1) #take my rgb image, apply 16 different 3x3 filters and keep the output size the same
+        self.conv1 = nn.Conv2d(3, 32, 3, padding = 1) #take my rgb image, apply 16 different 3x3 filters and keep the output size the same
+
+        #BATCH NORMALISATION AFTER EACH CONVOLUTION
+        self.bn1 = nn.BatchNorm2d(32)
 
         #second convolutional layer:
         #take the 16 feature maps from the first convolutional layer and output 32 feature maps (these are more complex features of the image)
-        self.conv2 = nn.Conv2d(8, 16, 3, padding = 1)
+        self.conv2 = nn.Conv2d(32, 64, 3, padding = 1)
+        self.bn2 = nn.BatchNorm2d(64)
 
         #third convolutional layer (idk if i need a third or if two enough):
-        self.conv3 = nn.Conv2d(16, 32, 3, padding = 1)
+        self.conv3 = nn.Conv2d(64, 128, 3, padding = 1)
+        self.bn3 = nn.BatchNorm2d(128)
 
+        self.conv4 = nn.Conv2d(128, 256, 3, padding = 1)
+        self.bn4 = nn.BatchNorm2d(256)
 
         #POOLING LAYER
         #thrink image whilst keeping information, reduce spatial size
@@ -40,8 +48,8 @@ class PetClassifier(nn.Module):
         #FULLY CONNECTED LAYERS (classification)
         #flattened size -> go from 2d features to 1d vector, after pooling we have 16 height + width and then 64 feature maps so 16 * 16 * 64 = 16384
         #2d spatial data is heightxwidth
-        self.fc1 = nn.Linear(32 * 16 * 16, 64) #first fully connected big layer output vector = 256, linear classifier used
-        self.fc2 = nn.Linear(64, 37) #previous 256 output vector and 37 classes
+        self.fc1 = nn.Linear(256 * 8 * 8, 256) #first fully connected big layer output vector = 256, linear classifier used
+        self.fc2 = nn.Linear(256, 37) #previous 256 output vector and 37 classes
 
         self.dropout = nn.Dropout(0.3) #dropout to prevent overfitting, 50% chance of dropping neuron in layer
 
@@ -51,20 +59,26 @@ class PetClassifier(nn.Module):
         #forward pass, data flow where i will connect layers and possibly pooling depending if the 128x128 image size is the right choice
 
         #Conv1 + ReLU + pool
-        x = self.pool(F.relu(self.conv1(x))) #128 -> 64
+        x = self.pool(F.relu(self.bn1(self.conv1(x)))) #128 -> 64
         #Conv2 + ReLU + pool
-        x = self.pool(F.relu(self.conv2(x))) #64 -> 32
+        x = self.pool(F.relu(self.bn2(self.conv2(x)))) #64 -> 32
         #Conv3 + ReLU + pool
-        x = self.pool(F.relu(self.conv3(x))) #32 -> 16
+        x = self.pool(F.relu(self.bn3(self.conv3(x)))) #32 -> 16
+        #Conv4 + ReLU + pool
+        x = self.pool(F.relu(self.bn4(self.conv4(x))))
 
         #flatten from (batch, 64 channels (feature maps), 16 height, 16 width) to (batch, 64*16*16), .view() reshapes tensor without changing any important data
-        x = x.view(-1, 32 * 16 *16)
+        #x = x.view(-1, 32 * 16 *16)
+
+        #TRYING computing fc1 input dynamically for falttening 
+        x = torch.flatten(x, 1)
 
         #fully connected layers with droupout (no overfitting)
         x = F.relu(self.fc1(x)) #forward through first fully connected layer
         x = self.dropout(x) #apply dropout in forwad pass
         x = self.fc2(x) #classification layer -> final layer
-        x = F.log_softmax(x, dim = 1) #raw outputs -> probabiltiies for NLL
+        
+            #x = F.log_softmax(x, dim = 1) #raw outputs -> probabiltiies for NLL
 
         return x #return the output
 
