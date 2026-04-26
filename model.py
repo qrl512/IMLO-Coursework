@@ -1,86 +1,92 @@
-#CNN architecture code
-#Layers, activation functions (probably ReLU), forward pass, loss + backprop?
+#CNN architecture code for image classification on the OxfordIIIT Pet dataset
 #Pytorch models need to inherit from nn.Module (the base class)
 
-#imports
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
 
 class PetClassifier(nn.Module):
     #look through the nn.Module parent class to see the constructor
-    #must make init call to parent class before assignment of the child class -> pytorch base class info
-
     def __init__(self):
-        #call the parent class constructor
+        #initialise the parent class constructor (needed for all PyTorch models)
         super().__init__()
 
-        #my network layers
-        
-        #CONVOLUTIONAL LAYERS
-        #input channels = 3 (i have RGB images)
-        #ouput channels = 16 each output channel is a feature map, need to decide on a number, 16 seems to be standard chouice
-        #kernel size = 3 standard choice for CNN, small enough to capture simple patterns like edges and gradients
-        #padding = 1 -> need to stop the image from shrinking after the convolution, this way the size is left unchanged
-        #use Pytorch's nn.Conv2d to add 2D convolution over input
-        self.conv1 = nn.Conv2d(3, 32, 3, padding = 1) #take my rgb image, apply 16 different 3x3 filters and keep the output size the same
+        #feature extractor:
+        # - series of convoltional blocks
+        # - each block increases channel depth and extracts more and more complex features each times 
+        # - pattern: conv -> batchnorm -> relu -> conv -> batchnorm -> maxpool
+        self.features = nn.Sequential(
+            #block 1 -> low level features being extracted (edges, textures)
+            nn.Conv2d(3, 32, 3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.Conv2d(32, 32, 3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
 
-        #BATCH NORMALISATION AFTER EACH CONVOLUTION
-        self.bn1 = nn.BatchNorm2d(32)
+            #block 2 -> more complex patterns being extracted
+            nn.Conv2d(32, 64, 3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.Conv2d(64, 64, 3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
 
-        #second convolutional layer:
-        #take the 16 feature maps from the first convolutional layer and output 32 feature maps (these are more complex features of the image)
-        self.conv2 = nn.Conv2d(32, 64, 3, padding = 1)
-        self.bn2 = nn.BatchNorm2d(64)
+            #block 3 -> more complex patterns
+            nn.Conv2d(64, 128, 3, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.Conv2d(128, 128, 3, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
 
-        #third convolutional layer (idk if i need a third or if two enough):
-        self.conv3 = nn.Conv2d(64, 128, 3, padding = 1)
-        self.bn3 = nn.BatchNorm2d(128)
+            #block 4 -> more complex again
+            nn.Conv2d(128, 256, 3, padding=1),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.Conv2d(256, 256, 3, padding=1),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
 
-        self.conv4 = nn.Conv2d(128, 256, 3, padding = 1)
-        self.bn4 = nn.BatchNorm2d(256)
+            #block 5 -> at this point i'm extracting high level more abstract features
+            nn.Conv2d(256, 512, 3, padding=1),
+            nn.BatchNorm2d(512),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+        )
 
-        #POOLING LAYER
-        #thrink image whilst keeping information, reduce spatial size
-        #for smaller model - 32 * 16 * 16 = 8192
-        self.pool = nn.MaxPool2d(2, 2) #try 2x2 window with stride 2, stride 2 will be quicker but less detail
+        #global pooling:
+        # - this reduces each feature map to a single value
+        # - doing this reduces the number of parameters and helps generalisation
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
 
-        #FULLY CONNECTED LAYERS (classification)
-        #flattened size -> go from 2d features to 1d vector, after pooling we have 16 height + width and then 64 feature maps so 16 * 16 * 64 = 16384
-        #2d spatial data is heightxwidth
-        self.fc1 = nn.Linear(256 * 8 * 8, 256) #first fully connected big layer output vector = 256, linear classifier used
-        self.fc2 = nn.Linear(256, 37) #previous 256 output vector and 37 classes
-
-        self.dropout = nn.Dropout(0.3) #dropout to prevent overfitting, 50% chance of dropping neuron in layer
+        #classifier:
+        # - maps extracted features to class score
+        # - there are 37 pet classes
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            #regularisation to help reduce any overfitting, stuck to 0.3
+            nn.Dropout(0.3),
+            nn.Linear(256, 37)
+        )
 
     #parent class def forward -> this is data flow and forward pass, if you forget it's on the pytorch website
     def forward(self, x):
-        #need to define x
-        #forward pass, data flow where i will connect layers and possibly pooling depending if the 128x128 image size is the right choice
+        #forward pass:
+        # - extract spatial features using convolutional layers
+        x = self.features(x)
+        # - reduce spatial dimensions whilst keeping channel information
+        x = self.pool(x)
+        # -  then classify using fully connected layers
+        x = self.classifier(x)
 
-        #Conv1 + ReLU + pool
-        x = self.pool(F.relu(self.bn1(self.conv1(x)))) #128 -> 64
-        #Conv2 + ReLU + pool
-        x = self.pool(F.relu(self.bn2(self.conv2(x)))) #64 -> 32
-        #Conv3 + ReLU + pool
-        x = self.pool(F.relu(self.bn3(self.conv3(x)))) #32 -> 16
-        #Conv4 + ReLU + pool
-        x = self.pool(F.relu(self.bn4(self.conv4(x))))
-
-        #flatten from (batch, 64 channels (feature maps), 16 height, 16 width) to (batch, 64*16*16), .view() reshapes tensor without changing any important data
-        #x = x.view(-1, 32 * 16 *16)
-
-        #TRYING computing fc1 input dynamically for falttening 
-        x = torch.flatten(x, 1)
-
-        #fully connected layers with droupout (no overfitting)
-        x = F.relu(self.fc1(x)) #forward through first fully connected layer
-        x = self.dropout(x) #apply dropout in forwad pass
-        x = self.fc2(x) #classification layer -> final layer
-        
-            #x = F.log_softmax(x, dim = 1) #raw outputs -> probabiltiies for NLL
-
-        return x #return the output
+        return x
 
 #LAYERS
 # Convolutional layers: extract features from the image like textures, shapes and edges
