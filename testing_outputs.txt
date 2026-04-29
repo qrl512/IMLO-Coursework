@@ -58,3 +58,20 @@ Test accurcy: 38.59362224039248%
 
 TEST 17 - DROPPING LR MID EPOCHS AND TRAINING ON BEST MODEL, SO LEARNING FAST EARLIER AND REFINING IN LATER EPOCHS
 Test accurcy: 48.323793949304985%
+
+TEST 18 - using image-net style normalisation instead, trying a learning scheduler, trying label smoothing -> accidentally forgot to change normalisation for train as well as val
+Test accurcy: 22.40392477514309%
+
+TEST 19 - fixed std and mean normalisation inconsistency, trying out reducing LR on plateau as my val accuracy has reached a plataeu and then dropped in the past, trying gradient clipping
+Test accurcy: 52.030526028890705%
+
+TEST 20 - adding more augmentation with RandomResizedCrop (tried in past but want to see the effect on my up to date improved model)
+Test accurcy: 53.011719814663394%
+
+TEST 21 - going back to optimal 20 model but adding light colour jitter augmentation
+Test accurcy: 48.07849550286181%
+
+TEST 22 - going back to optimal model, no colour jitter augmentation, trying LR = 0.0002
+Test accurcy: 51.34914145543745%
+
+TEST 23 - 

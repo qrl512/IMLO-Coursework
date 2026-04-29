@@ -15,20 +15,21 @@ def get_datasets():
     # - apply data augmentation (flip and rotation) to improve generalisation
     # - convert images to tensors (numeric arrays) and normalise the pixel values
     train_transform = transforms.Compose([
-        transforms.Resize((128, 128)),
+        transforms.Resize((160, 160)),
+        transforms.RandomResizedCrop(160, scale = (0.7, 1.0)),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.RandomRotation(10),
-        #transforms.ColorJitter(0.2, 0.2, 0.2, 0.1),
-        transforms.ToTensor(), #convert images into tensors
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        #transforms.ColorJitter(0.1, 0.1, 0.1, 0.05),
+        transforms.ToTensor(), #convert images into tensorswill
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
     #evaluation transforms:
     # - no augmentation to esnsure consistent and fair evaluation
     eval_transform = transforms.Compose([
-        transforms.Resize((128, 128)),
+        transforms.Resize((160, 160)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
     #load the dataset

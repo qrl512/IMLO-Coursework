@@ -8,6 +8,11 @@ from torch.utils.data import DataLoader
 from model import PetClassifier
 
 def train():
+    #debugging GPU
+    #print(torch.cuda.is_available())
+    #print(torch.cuda.device_count())
+    #print(torch.__version__)
+
     #load the datatsets, the trainval split to train and validation is handled in data.py
     train_data, val_data, test_data = get_datasets()
 
@@ -27,7 +32,8 @@ def train():
     #loss function:
     # - switched from NLLLoss with LogSoftmax to CrossEntropyLoss as it already combines both and it directly works with raw logtis from the model
     # - common modern practise for CNNs for image classification
-    loss_function = nn.CrossEntropyLoss()
+    loss_function = nn.CrossEntropyLoss(label_smoothing = 0.1)
+    #loss_function = nn.CrossEntropyLoss()
 
     #optimiser:
     # - switched from SGD (which updated params using fixed LR and momentum) to Adam
@@ -35,6 +41,11 @@ def train():
     # - due to 30 epoch limit and training from scratch, Adam was better as it didn't need as much fine tuning and reached better performance quicker than SGD
     # - added weight decay (regularisation) to help reduce any overfitting 
     optimiser = torch.optim.Adam(model.parameters(), lr = 0.0003, weight_decay = 1e-4)
+
+    #scheduler:
+    # - cosine annealing gradually reduces the learning rate over the 30 epochs to allow for faster learning early and fine tuning later
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, mode = 'max', patience = 3, factor = 0.3)
+    #scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimiser, T_max = 30)
 
     #track the best validation accuracy to be able to save the best performing model of the run
     best_validation_accuracy = 0
@@ -49,9 +60,11 @@ def train():
 
         #manual learning rate scheduling:
         # - reduce LR after 15 epochs to 0.0001 from 0.0003 to allow the model to learn fast early adn then refine in later epochs
-        if epoch == 15:
-            for g in optimiser.param_groups:
-                g['lr'] = 0.0001
+
+        #
+        #if epoch == 15:
+         #   for g in optimiser.param_groups:
+          #      g['lr'] = 0.0001
 
         for images, labels in train_loader:
             #forward pass first
@@ -70,6 +83,10 @@ def train():
             optimiser.zero_grad()
             #then calculate how much each weight contributed to the wrong answer, computing the new gradients 
             loss.backward()
+
+            #testing clipping gradients
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 0.1)
+
             #change the weights based on how wrong they were before, gradient descent update in week 8 
             optimiser.step() #adjust the weights based on what has been learnt
 
@@ -79,6 +96,8 @@ def train():
             highest_values, predicted = torch.max(outputs, 1)
             #need to get predicted values to be able to then comapre with labels
             train_correct += (predicted == labels).sum().item() #times where predicted value = actual label, will probs need .item() to convert to python number
+
+        #scheduler.step() #for cosine
 
         #need to calculate training accuracy - number of images model predicted correctly divided by number of images in training dataset as a percentage
         training_accuracy = 100 * train_correct / len(train_loader.dataset)
@@ -99,6 +118,7 @@ def train():
 
         #calculate validation accuracy - number of images model predicted correctly divided by total number of images in validation set as a percentage
         val_accuracy = 100 * validation_correct / len(val_loader.dataset) #want to aim for 70-90%
+        scheduler.step(val_accuracy) #for reduceLRonplateau
 
         #print the training loss, accuracy and validation accuracy for each epoch as per coursework request
         print(f"Epoch {epoch + 1}/{epochs}, Training loss: {average_train_loss}, Training accuracy: {training_accuracy}%, Validation accuracy: {val_accuracy}%")
@@ -109,8 +129,8 @@ def train():
             best_validation_accuracy = val_accuracy
             torch.save(model.state_dict(), "best_model.pth")
 
-        #save the final model to model.pth
-        torch.save(model.state_dict(), "model.pth")
+    #save the final model produced in the run to model.pth
+    torch.save(model.state_dict(), "model.pth")
 
 if __name__ == "__main__":
     train()
