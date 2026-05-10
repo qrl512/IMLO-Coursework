@@ -13,8 +13,8 @@ def test():
     test_loader = DataLoader(test_data, batch_size = 32, shuffle = False)
 
     #load the trained model, the best model to get best test results
-    model = PetClassifier() #initiliase the model
-    model.load_state_dict(torch.load("best_model_59P.pth", map_location = torch.device('cpu'))) #loads the best saved model based on validation accuracy
+    model = PetClassifier().to(device) #initiliase the model
+    model.load_state_dict(torch.load("best_model.pth", map_location = torch.device('cpu'))) #loads the best saved model based on validation accuracy
     model.eval() #set model to evaluation mode to disbale dropout and use running stats for batch normalisation as here we are testing
     
     #test the model

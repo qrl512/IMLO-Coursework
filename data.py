@@ -32,10 +32,8 @@ def get_datasets():
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
-    #load the dataset
-
-    #load the full dataset combining training and validation to later split
-    full_dataset = datasets.OxfordIIITPet(
+    #create  two separate datasets one for training one for validation
+    full_train = datasets.OxfordIIITPet(
         root = "./data",
         split = "trainval",
         transform = train_transform,
@@ -43,14 +41,27 @@ def get_datasets():
         download = True
     )
 
+    full_eval = datasets.OxfordIIITPet(
+        root = "./data",
+        split = "trainval",
+        transform = eval_transform,
+        target_types = "category",
+        download = True
+    )
+
+
     #training/validation split:
     # - split into train and validation with 80% training and 20% validation
-    train_size = int(0.8 * len(full_dataset))
-    val_size = len(full_dataset) - train_size
+    train_size = int(0.8 * len(full_train))
+    val_size = len(full_train) - train_size
 
-    train_data, val_data = random_split((full_dataset), [train_size, val_size])
-    #change validation transforma after the split
-    val_data.dataset.transform = eval_transform
+    #randomly shuffle the dataset indices before splitting to help avoid any bias
+    indices = torch.randperm(len(full_train)).tolist()
+    train_indices = indices[:train_size]
+    val_indices = indices[train_size:]
+
+    train_data = Subset(full_train, train_indices)
+    val_data = Subset(full_eval, val_indices)
     
     #load the test datatset with evaluation transform so it has no augmentation
     test_dataset = datasets.OxfordIIITPet(

@@ -74,4 +74,9 @@ Test accurcy: 48.07849550286181%
 TEST 22 - going back to optimal model, no colour jitter augmentation, trying LR = 0.0002
 Test accurcy: 51.34914145543745%
 
-TEST 23 - 
+TEST 23 - fixed validation split and changed gradient clipping to 1 instead of 0.1 which was a typo
+Test accurcy: 48.43281548105751%
+
+TEST 24 - final run? everything reproduces
+Test accurcy: 42.19133278822567%
+

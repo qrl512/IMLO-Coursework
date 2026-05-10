@@ -72,7 +72,7 @@ class PetClassifier(nn.Module):
             nn.Linear(512, 256),
             nn.ReLU(),
             #regularisation to help reduce any overfitting, stuck to 0.3
-            nn.Dropout(0.3),
+            nn.Dropout(0.), #optimal coudlve been 0.2 need to check
             nn.Linear(256, 37)
         )
 

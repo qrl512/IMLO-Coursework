@@ -8,23 +8,18 @@ from torch.utils.data import DataLoader
 from model import PetClassifier
 
 def train():
-    #debugging GPU
-    #print(torch.cuda.is_available())
-    #print(torch.cuda.device_count())
-    #print(torch.__version__)
-
     #load the datatsets, the trainval split to train and validation is handled in data.py
     train_data, val_data, test_data = get_datasets()
 
     #create data loader for train data, shuffle as true to help improve generalisation during training stage
-    train_loader = DataLoader(train_data, batch_size = 32, shuffle = True)
+    train_loader = DataLoader(train_data, batch_size = 32, shuffle = True, num_workers = 2, pin_memory = True)
     #DEBUGGING STUFF - debug to verify label are within the expected range, uncomment the next 3 lines to include in code
     #images, labels = next(iter(train_loader))
     #print(labels[:20])
     #print(labels.min(), labels.max())
 
     #shuffle false so no random ordering for validation
-    val_loader= DataLoader(val_data, batch_size = 32, shuffle = False)
+    val_loader= DataLoader(val_data, batch_size = 32, shuffle = False, num_workers = 2, pin_memory = True)
 
     #initialise the model, loss and optimiser
     model = PetClassifier()
@@ -36,16 +31,23 @@ def train():
     #loss_function = nn.CrossEntropyLoss()
 
     #optimiser:
-    # - switched from SGD (which updated params using fixed LR and momentum) to Adam
-    # - changed to Adam optimiser as it adjust LR for each parameter which allowed my mdoel to converge faster and more reliably (especially in early training stages)
-    # - due to 30 epoch limit and training from scratch, Adam was better as it didn't need as much fine tuning and reached better performance quicker than SGD
+    # - switched from SGD (which updated params using fixed LR and momentum) to AdamW
+    # - changed to AdamW optimiser as it adjust LR for each parameter which allowed my mdoel to converge faster and more reliably (especially in early training stages)
+    # - due to 30 epoch limit and training from scratch, AdamW was better as it didn't need as much fine tuning and reached better performance quicker than SGD
     # - added weight decay (regularisation) to help reduce any overfitting 
-    optimiser = torch.optim.Adam(model.parameters(), lr = 0.0003, weight_decay = 1e-4)
+    optimiser = torch.optim.AdamW(model.parameters(), lr = 0.0003, weight_decay = 5e-5)
 
     #scheduler:
-    # - cosine annealing gradually reduces the learning rate over the 30 epochs to allow for faster learning early and fine tuning later
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimiser, mode = 'max', patience = 3, factor = 0.3)
-    #scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimiser, T_max = 30)
+    # - keeps the initial learning rate for the first 15 epochs and then reduces it later in training
+    # - this allows finer weight updates which helps stabilise training and improve convergence
+    def lr_lambda(epoch):
+        if epoch < 15:
+            return 1.0
+        elif epoch < 22:
+            return 0.3
+        else:
+            return 0.09
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimiser, lr_lambda)
 
     #track the best validation accuracy to be able to save the best performing model of the run
     best_validation_accuracy = 0
@@ -85,7 +87,7 @@ def train():
             loss.backward()
 
             #testing clipping gradients
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 0.1)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
 
             #change the weights based on how wrong they were before, gradient descent update in week 8 
             optimiser.step() #adjust the weights based on what has been learnt
@@ -97,7 +99,7 @@ def train():
             #need to get predicted values to be able to then comapre with labels
             train_correct += (predicted == labels).sum().item() #times where predicted value = actual label, will probs need .item() to convert to python number
 
-        #scheduler.step() #for cosine
+        scheduler.step() #for cosine/lambda
 
         #need to calculate training accuracy - number of images model predicted correctly divided by number of images in training dataset as a percentage
         training_accuracy = 100 * train_correct / len(train_loader.dataset)
@@ -118,7 +120,7 @@ def train():
 
         #calculate validation accuracy - number of images model predicted correctly divided by total number of images in validation set as a percentage
         val_accuracy = 100 * validation_correct / len(val_loader.dataset) #want to aim for 70-90%
-        scheduler.step(val_accuracy) #for reduceLRonplateau
+        #scheduler.step(val_accuracy) #for reduceLRonplateau
 
         #print the training loss, accuracy and validation accuracy for each epoch as per coursework request
         print(f"Epoch {epoch + 1}/{epochs}, Training loss: {average_train_loss}, Training accuracy: {training_accuracy}%, Validation accuracy: {val_accuracy}%")
